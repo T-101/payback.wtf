@@ -20,11 +20,11 @@ class PaybackUser(TimeStampedModel):
 
 
 class Questionnaire(TimeStampedModel):
-    user = models.ForeignKey(PaybackUser, on_delete=models.CASCADE)
+    user = models.OneToOneField(PaybackUser, on_delete=models.CASCADE, related_name='questionnaire')
     wants_food = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.user
+        return self.user.handle
 
 
 class Settings(SingletonModel):
