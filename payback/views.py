@@ -44,7 +44,20 @@ class VisitorDetailView(FormView):
     template_name = 'visitor-detail.html'
     form_class = PaybackUserForm
 
+    def __init__(self):
+        super().__init__()
+        self.object = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.object = PaybackUser.objects.get(user_id=kwargs['user_id'])
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['object'] = self.object
+        return context
+
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['instance'] = PaybackUser.objects.get(user_id=self.kwargs['user_id'])
+        kwargs['instance'] = self.object
         return kwargs
