@@ -25,6 +25,7 @@
                     </div>
                     <div class="card-body text-center">
                         <h4 class="card-title">Registration opens</h4>
+                        <h4>{{ registration_start }}</h4>
                         <p id="countdown" class="container-fluid fs-3 badge bg-primary"></p>
                     </div>
                 </div>
@@ -35,7 +36,7 @@
     <script>
         const countDownDate = new Date("{{ registration_start|date:"c" }}").getTime(),
             countdownElem = document.getElementById("countdown"),
-            intervalHandler = setInterval(function () {
+            countdownFn =  () => {
 
                 const distance = countDownDate - new Date().getTime(),
                     days = Math.floor(distance / (1000 * 60 * 60 * 24)),
@@ -51,7 +52,9 @@
                     clearInterval(intervalHandler);
                     countdownElem.innerHTML = "Registration is open! Refresh your browser!"
                 }
-            }, 1000)
+            },
+            intervalHandler = setInterval(countdownFn, 1000)
+        countdownFn()
     </script>
 
 {% endblock %}
