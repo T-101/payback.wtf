@@ -22,34 +22,19 @@
 
         <hr/>
 
-
         {% for visitor in object_list %}
             {% if forloop.counter0|divisibleby:2 %}
                 <div class="row">
                     <div class="col-12 col-sm-6">
-                        {{ forloop.counter }}. {{ visitor.handle }}
-                        {% if visitor.group %}
-                            / {{ visitor.group }}
-                        {% endif %}
-                        {% if visitor.payment_status %}
-                            <i class="fas fa-crown fa-xs ms-2"></i>
-                        {% endif %}
+                        {% include 'snippets/visitor-line.html' %}
                     </div>
-
                     {% else %}
                     <div class="col-12 col-sm-6">
-                        {{ forloop.counter }}. {{ visitor.handle }}
-                        {% if visitor.group %}
-                            / {{ visitor.group }}
-                        {% endif %}
-                        {% if visitor.payment_status %}
-                            <i class="fas fa-crown fa-xs ms-2"></i>
-                        {% endif %}
+                        {% include 'snippets/visitor-line.html' %}
                     </div>
                 </div>
             {% endif %}
         {% endfor %}
-
 
     {% endif %}
 

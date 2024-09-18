@@ -1,0 +1,12 @@
+{{ forloop.counter }}.
+{% if visitor.name_visible %}
+    {{ visitor.handle }}
+{% else %}
+    [[ hidden ]]
+{% endif %}
+{% if visitor.group %}
+    / {{ visitor.group }}
+{% endif %}
+{% if visitor.payment_status %}
+    <i class="fas fa-crown fa-xs ms-2"></i>
+{% endif %}
