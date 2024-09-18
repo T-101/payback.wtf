@@ -1,0 +1,57 @@
+{% extends 'base.html' %}{% load crispy_forms_tags %}
+
+{% block content %}
+
+    <h3 class="mb-4">Registration</h3>
+
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <h5 class="text-decoration-underline">The Process</h5>
+            <p>When the registration starts, you will be asked for your handle and email address.
+                Group name is optional. You can change this information later.</p>
+            <p> Enter a valid email address to receive a confirmation email
+                and subsequent information about the event.</p>
+            <p>We will email you payment information and ask you some questions about catering.</p>
+            <p>Trust only in <span class="text-decoration-underline">The Process.</span></p>
+        </div>
+        <div class="col-12 col-md-6">
+            {% if registration_open %}
+                <h5>Registration <span class="ms-1 badge bg-success">Open</span></h5>
+                {% crispy form %}
+            {% else %}
+                <div class="card text-white bg-dark mb-3" style="max-width: 20rem;">
+                    <div class="card-header">
+                        <h5 class="mb-0">Registration <span class="ms-1 badge bg-danger">Closed</span></h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <h4 class="card-title">Registration opens</h4>
+                        <p id="countdown" class="container-fluid fs-3 badge bg-primary"></p>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <script>
+        const countDownDate = new Date("{{ registration_start|date:"c" }}").getTime(),
+            countdownElem = document.getElementById("countdown"),
+            intervalHandler = setInterval(function () {
+
+                const distance = countDownDate - new Date().getTime(),
+                    days = Math.floor(distance / (1000 * 60 * 60 * 24)),
+                    hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
+                    minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
+                    seconds = Math.floor((distance % (1000 * 60)) / 1000)
+
+                const countdown = days + "d " + hours + "h " + minutes + "m " + seconds + "s "
+
+                countdownElem.innerHTML = countdown
+
+                if (distance < 0) {
+                    clearInterval(intervalHandler);
+                    countdownElem.innerHTML = "Registration is open! Refresh your browser!"
+                }
+            }, 1000)
+    </script>
+
+{% endblock %}

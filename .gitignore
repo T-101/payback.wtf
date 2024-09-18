@@ -1,0 +1,15 @@
+*.pyc
+static/
+media/
+
+.env
+
+db.sqlite3
+docker-compose.override.yml
+
+.idea/
+
+*.csv
+*.json
+
+.DS_Store

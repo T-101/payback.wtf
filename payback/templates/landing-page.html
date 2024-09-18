@@ -1,0 +1,225 @@
+<!DOCTYPE HTML>{% load static %}
+<!--
+	Landed by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="en">
+<head>
+    <title>Payback</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no"/>
+    <link rel="stylesheet" href="{% static 'css/main.css' %}"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+          integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+          crossorigin="anonymous" referrerpolicy="no-referrer"/>
+    <noscript>
+        <link rel="stylesheet" href="{% static 'css/noscript.css' %}"/>
+    </noscript>
+</head>
+<body class="is-preload landing">
+<div id="page-wrapper">
+
+    <!-- Header -->
+    <header id="header">
+        <h1 id="logo"><a href="{% url 'payback:landing-page' %}">Payback</a></h1>
+        <nav id="nav">
+            <ul>
+                <!-- <li><a href="index.html">Home</a></li>
+                <li>
+                    <a href="#">Layouts</a>
+                    <ul>
+                        <li><a href="left-sidebar.html">Left Sidebar</a></li>
+                        <li><a href="right-sidebar.html">Right Sidebar</a></li>
+                        <li><a href="no-sidebar.html">No Sidebar</a></li>
+                        <li>
+                            <a href="#">Submenu</a>
+                            <ul>
+                                <li><a href="#">Option 1</a></li>
+                                <li><a href="#">Option 2</a></li>
+                                <li><a href="#">Option 3</a></li>
+                                <li><a href="#">Option 4</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li><a href="elements.html">Elements</a></li> -->
+                <li><a href="{% url 'payback:registration' %}" class="button primary">Register</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Banner -->
+    <section id="banner">
+        <div class="content">
+            <header>
+                <img src="{% static 'images/payback-logo-alpha_bg.png' %}" alt="Payback Logo" style="max-width: 70vw;"/>
+                <!--                <h2>The future has landed</h2>
+                                <p>And there are no hoverboards or flying cars.<br/>
+                                    Just apps. Lots of mother flipping apps.</p>-->
+                <h2>ONE NIGHT ONLY</h2>
+                <h3>JAN 25th 2025</h3>
+            </header>
+            <span class="image"><img src="{% static 'images/payback-b-alpha_bg.png' %}" alt=""/></span>
+        </div>
+        <a href="#one" class="goto-next scrolly">Next</a>
+    </section>
+
+    <!-- One -->
+    <section id="one" class="spotlight style1 bottom">
+        <span class="image fit main"><img src="{% static 'images/fireworks.webp' %}" alt=""/></span>
+        <div class="content">
+            <div class="container">
+                <div class="row">
+                    <div class="col-4 col-12-medium">
+                        <header>
+                            <h2>Has it really been 10 years?</h2>
+                            <p>Yes. Yes it has.</p>
+                        </header>
+                    </div>
+                    <div class="col-4 col-12-medium">
+                        <p></p>
+                    </div>
+                    <div class="col-4 col-12-medium">
+                        <p></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a href="#two" class="goto-next scrolly">Next</a>
+    </section>
+
+    <!-- Two -->
+    <section id="two" class="spotlight style2 right">
+        <span class="image fit main"><img src="{% static 'images/partyhall.webp' %}" alt=""/></span>
+        <div class="content">
+            <header>
+                <h2>A Very Special Evening</h2>
+                <p>Celebrate with the elite</p>
+            </header>
+            <p>By popular demand, a few compos too.</p>
+            <ul class="actions">
+                <li><a href="#four" class="button">Learn More</a></li>
+            </ul>
+        </div>
+        <a href="#three" class="goto-next scrolly">Next</a>
+    </section>
+
+    <!-- Three -->
+    <section id="three" class="spotlight style3 left">
+        <span class="image fit main bottom"><img src="{% static 'images/waiski.webp' %}" alt=""/></span>
+        <div class="content">
+            <header>
+                <h2>Remember Villa Haka?</h2>
+                <p>Yeah, we're not going back there.</p>
+            </header>
+            <p>We'll be sailing the seas of cheese with Ravintolalaiva Wäiski.</p>
+            <p>The lower deck will accommodate 100 visitors.</p>
+            <p>Multiple screen setup and Boss speakers all around.</p>
+            <ul class="actions">
+                <li><a href="https://ravintolawaiski.fi/" class="button">Learn More</a></li>
+            </ul>
+        </div>
+        <a href="#four" class="goto-next scrolly">Next</a>
+    </section>
+
+    <!-- Four -->
+    <section id="four" class="wrapper style1 special fade-up">
+        <div class="container">
+            <header class="major">
+                <h2>Key facts</h2>
+                <p>Eli siis niinku hä</p>
+            </header>
+            <div class="box alt">
+                <div class="row gtr-uniform">
+                    <section class="col-4 col-6-medium col-12-xsmall">
+                        <span class="icon solid alt major fas fa-poop"></span>
+                        <h3>Three compos</h3>
+                        <p>Demo, Wild and ???</p>
+                    </section>
+                    <section class="col-4 col-6-medium col-12-xsmall">
+                        <span class="icon solid alt major fas fa-exclamation"></span>
+                        <h3>Compo deadline Jan 19th 2025</h3>
+                        <p>Entries will be pre-recorded using Compocrew ry equipment</p>
+                    </section>
+                    <section class="col-4 col-6-medium col-12-xsmall">
+                        <span class="icon solid alt major fas fa-hotdog"></span>
+                        <h3>Hot Dogs served?</h3>
+                        <p>Fill the questionnaire and we'll see what happens</p>
+                    </section>
+                    <section class="col-4 col-6-medium col-12-xsmall">
+                        <span class="icon solid alt major fas fa-ticket-alt"></span>
+                        <h3>No ticket, no access</h3>
+                        <p>The bouncers know their job</p>
+                    </section>
+                    <section class="col-4 col-6-medium col-12-xsmall">
+                        <span class="icon solid alt major fas fa-video"></span>
+                        <h3>There will be no stream</h3>
+                        <p>You literally have to be there</p>
+                    </section>
+                    <section class="col-4 col-6-medium col-12-xsmall">
+                        <span class="icon solid alt major fas fa-cash-register"></span>
+                        <h3>Registration is critical</h3>
+                        <p>PayBack 2015 sold out in 6 minutes</p>
+                    </section>
+                </div>
+            </div>
+            <footer class="major">
+                <ul class="actions special">
+                    <li><a href="{% url 'payback:registration' %}" class="button">Register</a></li>
+                </ul>
+            </footer>
+        </div>
+    </section>
+
+    <!-- Five -->
+    <!--    <section id="five" class="wrapper style2 special fade">
+            <div class="container">
+                <header>
+                    <h2>Magna faucibus lorem diam</h2>
+                    <p>Ante metus praesent faucibus ante integer id accumsan eleifend</p>
+                </header>
+                <form method="post" action="#" class="cta">
+                    <div class="row gtr-uniform gtr-50">
+                        <div class="col-8 col-12-xsmall"><input type="email" name="email" id="email"
+                                                                placeholder="Your Email Address"/></div>
+                        <div class="col-4 col-12-xsmall"><input type="submit" value="Get Started" class="fit primary"/>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>-->
+
+    <!-- Footer -->
+    <footer id="footer">
+        <ul class="icons">
+            <li><a href="https://twitter.com/paybackparty" class="icon brands alt fa-twitter">
+                <span class="label">Twitter</span></a></li>
+            <li><a href="#" class="icon brands alt fa-facebook-f"><span class="label">Facebook</span></a></li>
+            <!-- <li><a href="#" class="icon brands alt fa-linkedin-in"><span class="label">LinkedIn</span></a></li>
+            <li><a href="#" class="icon brands alt fa-instagram"><span class="label">Instagram</span></a></li> -->
+            <li><a href="#" class="icon brands alt fa-github"><span class="label">GitHub</span></a></li>
+            <!-- <li><a href="#" class="icon solid alt fa-envelope"><span class="label">Email</span></a></li> -->
+        </ul>
+        <ul class="copyright">
+            <li>&copy; Payback Demoparty. All rights reserved.</li>
+            <li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
+        </ul>
+    </footer>
+
+</div>
+
+<!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"
+        integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="{% static 'js/jquery.scrolly.min.js' %}"></script>
+<script src="{% static 'js/jquery.dropotron.min.js' %}"></script>
+<script src="{% static 'js/jquery.scrollex.min.js' %}"></script>
+<script src="{% static 'js/browser.min.js' %}"></script>
+<script src="{% static 'js/breakpoints.min.js' %}"></script>
+<script src="{% static 'js/util.js' %}"></script>
+<script src="{% static 'js/main.js' %}"></script>
+
+</body>
+</html>
