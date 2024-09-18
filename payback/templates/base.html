@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html>{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -20,7 +20,10 @@
 
 <nav class="navbar navbar-expand-sm bg-dark" data-bs-theme="dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'payback:landing-page' %}">Payback</a>
+        <a class="navbar-brand" href="{% url 'payback:landing-page' %}">
+            <img src="{% static 'images/payback-logo-alpha_bg-small.webp' %}" class="ps-2 m-0"
+                 style="height: 1.5em;" alt="Payback logo"/>
+        </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarColor02"
                 aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
