@@ -2,7 +2,9 @@
 
 {% block content %}
 
-    {% if object_list %}
+    {% if not object_list %}
+        <h4>No on here yet</h4>
+    {% else %}
         <h3>Visitors</h3>
 
         <div class="row">
@@ -19,6 +21,7 @@
         </div>
 
         <hr/>
+
 
         {% for visitor in object_list %}
             {% if forloop.counter0|divisibleby:2 %}
