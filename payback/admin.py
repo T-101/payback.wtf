@@ -3,6 +3,11 @@ from django.contrib import admin
 from .models import PaybackUser, Questionnaire, Settings
 
 
+class InlineQuestionnaire(admin.TabularInline):
+    model = Questionnaire
+    extra = 0
+
+
 @admin.register(PaybackUser)
 class PaybackUserAdmin(admin.ModelAdmin):
     list_display = [
@@ -12,6 +17,7 @@ class PaybackUserAdmin(admin.ModelAdmin):
     list_filter = ['created', 'modified', 'name_visible', 'visitor_accepted', 'payment_status']
     search_fields = ['handle', 'group', 'email', 'user_id']
     readonly_fields = ['user_id']
+    inlines = [InlineQuestionnaire]
 
 
 @admin.register(Questionnaire)
