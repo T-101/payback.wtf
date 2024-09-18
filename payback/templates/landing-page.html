@@ -22,7 +22,9 @@
 
     <!-- Header -->
     <header id="header">
-        <h1 id="logo"><a href="{% url 'payback:landing-page' %}">Payback</a></h1>
+        <h1 id="logo"><a href="{% url 'payback:landing-page' %}">
+            <img src="{% static 'images/payback-logo-alpha_bg-small.webp' %}" alt="Payback Logo" style="max-width: 130px; margin-top: 0.3em"/>
+        </a></h1>
         <nav id="nav">
             <ul>
                 <!-- <li><a href="index.html">Home</a></li>
@@ -53,7 +55,7 @@
     <section id="banner">
         <div class="content">
             <header>
-                <img src="{% static 'images/payback-logo-alpha_bg.png' %}" alt="Payback Logo" style="max-width: 70vw;"/>
+                <img src="{% static 'images/payback-logo-alpha_bg.webp' %}" alt="Payback Logo" style="max-width: 70vw;"/>
                 <!--                <h2>The future has landed</h2>
                                 <p>And there are no hoverboards or flying cars.<br/>
                                     Just apps. Lots of mother flipping apps.</p>-->
@@ -116,6 +118,7 @@
             <p>We'll be sailing the seas of cheese with Ravintolalaiva Wäiski.</p>
             <p>The lower deck will accommodate 100 visitors.</p>
             <p>Multiple screen setup and Boss speakers all around.</p>
+            <p>Bar with the usual selection of beers and spirits. Payment with cash, card or electronic.</p>
             <ul class="actions">
                 <li><a href="https://ravintolawaiski.fi/" class="button">Learn More</a></li>
             </ul>
