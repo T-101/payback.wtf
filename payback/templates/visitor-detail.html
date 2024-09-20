@@ -1,5 +1,9 @@
 {% extends 'base.html' %}{% load crispy_forms_tags %}{% load www_extras %}
 
+{% block title %}
+    <title>Visitor Details | Payback 2025</title>
+{% endblock %}
+
 {% block content %}
     <h3>Your Details</h3>
     <div class="row">
@@ -15,7 +19,7 @@
                         {% if object.payment_status %}
                             Paid!
                         {% else %}
-                            <form action="{% url 'payback:stripe-create-checkout-session' %}" method="POST">
+                            <form action="{% url 'payback:stripe-create-checkout-session' object.user_id %}" method="POST">
                                 <button class="btn btn-primary" type="submit" id="checkout-button">Pay now</button>
                             </form>
                         {% endif %}
