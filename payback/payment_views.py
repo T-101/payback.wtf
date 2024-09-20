@@ -30,7 +30,6 @@ def create_checkout_session(request, user_id):
 
     stripe_session = get_random_string(length=32)
     request.session['stripe_session'] = stripe_session
-    session_key = request.session.session_key
 
     try:
         checkout_session = stripe.checkout.Session.create(
@@ -48,8 +47,7 @@ def create_checkout_session(request, user_id):
             ],
             payment_intent_data={
                 'metadata': {'user_id': user_id,
-                             'stripe_session': stripe_session,
-                             'session_key': session_key}
+                             'stripe_session': stripe_session}
             },
             mode='payment',
             success_url=domain_url + reverse('payback:stripe-success'),
@@ -80,17 +78,12 @@ def stripe_payment_webhook(request):
     try:
         user_id = post_data['data']['object']['metadata']['user_id']
         stripe_session = post_data['data']['object']['metadata']['stripe_session']
-        session_key = post_data['data']['object']['metadata']['session_key']
     except KeyError:
         return HttpResponse(status=400, content='Invalid session data')
 
-    try:
-        session = Session.objects.get(session_key=session_key)
-    except Session.DoesNotExist:
-        return HttpResponse(status=400, content='Session not found')
+    for session in Session.objects.iterator():
+        if session.get_decoded().get("stripe_session") == stripe_session:
+            PaybackUser.objects.filter(user_id=user_id).update(payment_status=True)
+            return HttpResponse(status=200)
 
-    if not stripe_session == session.get_decoded().get('stripe_session'):
-        return HttpResponse(status=400, content='Session data mismatch')
-
-    PaybackUser.objects.filter(user_id=user_id).update(payment_status=True)
-    return HttpResponse(status=200)
+    return HttpResponse(status=400, content='Session data mismatch')
