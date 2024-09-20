@@ -10,6 +10,7 @@ class PaybackUser(TimeStampedModel):
     group = models.CharField(max_length=100, blank=True, null=True)
     email = models.EmailField()
     user_id = RandomCharField(length=32, unique=True, lowercase=True, include_digits=True)
+    user_id_short = RandomCharField(length=8, lowercase=True, include_digits=False)
 
     name_visible = models.BooleanField(default=True)
     visitor_accepted = models.BooleanField(default=True)
