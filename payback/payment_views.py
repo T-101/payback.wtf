@@ -28,7 +28,7 @@ def create_checkout_session(request, user_id):
     else:
         domain_url = f'https://{Site.objects.get_current().domain}'
 
-    stripe_session = get_random_string(length=32)
+    stripe_session = get_random_string(length=128)
     request.session['stripe_session'] = stripe_session
 
     try:
