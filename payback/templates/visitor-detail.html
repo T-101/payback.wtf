@@ -15,9 +15,17 @@
                         {% if object.payment_status %}
                             Paid!
                         {% else %}
-                            <form action="/create-checkout-session" method="POST">
+                            <form action="{% url 'payback:stripe-create-checkout-session' %}" method="POST">
                                 <button class="btn btn-primary" type="submit" id="checkout-button">Pay now</button>
                             </form>
+                        {% endif %}
+                    </div>
+                    <hr/>
+                    <div>Votekey:
+                        {% if object.payment_status %}
+                            {{ object.user_id_short }}
+                        {% else %}
+                            Pay first (add JS copy button)
                         {% endif %}
                     </div>
                     <hr/>
