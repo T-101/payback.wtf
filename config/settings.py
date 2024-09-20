@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     # packages
     'django_extensions',
     'debug_toolbar',
@@ -62,6 +63,8 @@ INSTALLED_APPS = [
     # apps
     'payback'
 ]
+
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -158,3 +161,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 SENDGRID_API_KEY = env('SENDGRID_API_KEY')
 SENDGRID_FROM_EMAIL = env('SENDGRID_FROM_EMAIL')
+
+STRIPE_API_KEY = env('STRIPE_API_KEY')
+STRIPE_TICKET = env.str('STRIPE_TICKET')
+STRIPE_TICKET_FOOD = env.str('STRIPE_TICKET_FOOD')
