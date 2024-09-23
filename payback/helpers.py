@@ -44,3 +44,11 @@ def send_registration_email(payback_user):
             "handle": payback_user.handle,
             "user_id": payback_user.user_id},
         recipient_list=[payback_user.email])
+
+
+def send_declined_email(payback_user):
+    send_async_mail(
+        subject="Your PayBack registration was declined",
+        text_filepath="snippets/email-declined.txt",
+        context={},
+        recipient_list=[payback_user.email])
