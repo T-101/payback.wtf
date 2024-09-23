@@ -59,5 +59,6 @@ class VisitorDetailView(FormView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['instance'] = self.object
+        if self.object.visitor_accepted:
+            kwargs['instance'] = self.object
         return kwargs
