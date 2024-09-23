@@ -7,39 +7,49 @@
 {% block content %}
     <h3>Your Details</h3>
     <div class="row">
-        <div class="col-12 col-sm-6">
-            <div class="card text-white bg-secondary mb-3">
-                <div class="card-header">{{ object.handle }}</div>
-                <div class="card-body">
-                    <h4 class="card-title">Secondary card title</h4>
-                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the
-                        card's content.</p>
-                    <hr/>
-                    <div>Payment status:
-                        {% if object.payment_status %}
-                            Paid!
-                        {% else %}
-                            <form action="{% url 'payback:stripe-create-checkout-session' object.user_id %}" method="POST">
-                                <button class="btn btn-primary" type="submit" id="checkout-button">Pay now</button>
-                            </form>
-                        {% endif %}
-                    </div>
-                    <hr/>
-                    <div>Votekey:
-                        {% if object.payment_status %}
-                            {{ object.user_id_short }}
-                        {% else %}
-                            Pay first (add JS copy button)
-                        {% endif %}
-                    </div>
-                    <hr/>
-                    <h4>Questionnaire answered: {{ object.questionnaire|boolean_text }}</h4>
+        {% if not object.visitor_accepted %}
+            <div class="col-12 col-sm-6">
+                <div class="alert alert-danger" role="alert">
+                    You are not allowed to visit this event.
                 </div>
             </div>
-        </div>
-        <div class="col-12 col-sm-6">
-            {% crispy form %}
-        </div>
+        {% else %}
+            <div class="col-12 col-sm-6">
+                <div class="card text-white bg-secondary mb-3">
+                    <div class="card-header">{{ object.handle }}</div>
+                    <div class="card-body">
+                        <h4 class="card-title">Secondary card title</h4>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the
+                            card's content.</p>
+                        <hr/>
+                        <div>Payment status:
+                            {% if object.payment_status %}
+                                Paid!
+                            {% else %}
+                                <form action="{% url 'payback:stripe-create-checkout-session' object.user_id %}"
+                                      method="POST">
+                                    <button class="btn btn-primary" type="submit" id="checkout-button">Pay now</button>
+                                </form>
+                            {% endif %}
+                        </div>
+                        <hr/>
+                        <div>Votekey:
+                            {% if object.payment_status %}
+                                {{ object.user_id_short }}
+                            {% else %}
+                                Pay first (add JS copy button)
+                            {% endif %}
+                        </div>
+                        <hr/>
+                        <h4>Questionnaire answered: {{ object.questionnaire|boolean_text }}</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12 col-sm-6">
+                {% crispy form %}
+            </div>
+        {% endif %}
     </div>
 
 {% endblock %}
