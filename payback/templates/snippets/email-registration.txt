@@ -1,0 +1,5 @@
+Welcome to PayBack, {{ handle }}!
+
+We're thrilled to have you on board. Click the link below to access Your Profile.
+
+https://{{ site }}/visitor/{{ user_id }}/
