@@ -12,7 +12,7 @@ from payback.helpers import send_registration_email
 class PaybackUser(TimeStampedModel):
     handle = models.CharField(max_length=100)
     group = models.CharField(max_length=100, blank=True, null=True)
-    email = models.EmailField()
+    email = models.EmailField(unique=True)
     user_id = RandomCharField(length=32, unique=True, lowercase=True, include_digits=True)
 
     initial_email_sent = models.BooleanField(default=False)
