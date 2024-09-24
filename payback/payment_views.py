@@ -71,34 +71,24 @@ def stripe_cancel(request):
 @require_http_methods(["POST"])
 def stripe_payment_webhook(request):
     try:
-        post_data = json.loads(request.body)
-    except json.JSONDecodeError:
-        return HttpResponse(status=400, content='Invalid JSON body')
-
-    sig_header = request.headers.get('Stripe-Signature')
-
-    try:
-        event = stripe.Webhook.construct_event(request.body, sig_header, settings.STRIPE_WEBHOOK_SECRET)
+        event = stripe.Webhook.construct_event(request.body, request.headers.get('Stripe-Signature'),
+                                               settings.STRIPE_WEBHOOK_SECRET)
     except ValueError as e:
-        print('Error parsing payload: {}'.format(str(e)))
-        return HttpResponse(status=400, content="Invalid payload")
+        print(f'Error parsing payload: {e}')
+        return HttpResponse(status=400)
     except stripe.error.SignatureVerificationError as e:
-        print('Error verifying webhook signature: {}'.format(str(e)))
-        return HttpResponse(status=400, content="Invalid signature")
-
-    print("EVENT.TYPE", event.type)
-    print("EVENT.DATA.OBJECT MT1", event.data.object.get('metadata'))
-    print("EVENT.DATA.OBJECT MT2", event.data.object.metadata)
+        print(f'Error verifying webhook signature: {e}')
+        return HttpResponse(status=400)
 
     try:
-        user_id = post_data['data']['object']['metadata']['user_id']
-        stripe_session = post_data['data']['object']['metadata']['stripe_session']
+        user_id = event.data.object.metadata.get('user_id')
+        stripe_session = event.data.object.metadata.get('stripe_session')
     except KeyError:
-        return HttpResponse(status=400, content='Invalid session data')
+        return HttpResponse(status=400)
 
     for session in Session.objects.iterator():
         if session.get_decoded().get("stripe_session") == stripe_session:
             PaybackUser.objects.filter(user_id=user_id).update(payment_status=True)
             return HttpResponse(status=200)
 
-    return HttpResponse(status=400, content='Session data mismatch')
+    return HttpResponse(status=400)
