@@ -5,6 +5,7 @@ from django.contrib.sites.models import Site
 from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.conf import settings
+from sendgrid import EventWebhook, EventWebhookHeader
 
 
 class EmailThread(threading.Thread):
@@ -52,3 +53,18 @@ def send_declined_email(payback_user):
         text_filepath="snippets/email-declined.txt",
         context={},
         recipient_list=[payback_user.email])
+
+
+def verify_sendgrid_webhook(request):
+    event_webhook = EventWebhook()
+    key = settings.SENDGRID_WEBHOOK_VERIFICATION_KEY
+
+    ec_public_key = event_webhook.convert_public_key_to_ecdsa(key)
+
+    return event_webhook.verify_signature(
+        request.body.decode('latin-1'),
+        request.headers[EventWebhookHeader.SIGNATURE],
+        request.headers[EventWebhookHeader.TIMESTAMP],
+        ec_public_key
+    )
+
