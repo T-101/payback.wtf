@@ -70,7 +70,10 @@ def sendgrid_delivery_webhook(request):
     except json.JSONDecodeError:
         return HttpResponse(status=400, content='Invalid JSON body')
 
-    if not verify_sendgrid_webhook(request):
+    try:
+        if not verify_sendgrid_webhook(request):
+            return HttpResponse(status=403, content='Invalid webhook signature')
+    except KeyError:
         return HttpResponse(status=403, content='Invalid webhook signature')
 
     emails = []
