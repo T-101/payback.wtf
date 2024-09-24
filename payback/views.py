@@ -22,14 +22,21 @@ class RegistrationView(FormView):
     form_class = PaybackUserForm
     success_url = reverse_lazy('payback:visitors')
 
+    def __init__(self):
+        super().__init__()
+        self.settings = Settings.load()
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['settings'] = Settings.load()
-        context['registration_open'] = context['settings'].registration_open()
-        context['registration_start'] = context['settings'].registration_start
+        context['settings'] = self.settings
+        # context['registration_open'] = self.settings.registration_open()
+        # context['registration_start'] = self.settings.registration_start
         return context
 
     def form_valid(self, form):
+        if not self.settings.registration_open():
+            messages.add_message(self.request, messages.ERROR, 'Registration is closed')
+            return self.get(self.request)
         form.save()
         return super().form_valid(form)
 
