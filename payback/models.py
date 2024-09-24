@@ -15,6 +15,8 @@ class PaybackUser(TimeStampedModel):
     email = models.EmailField()
     user_id = RandomCharField(length=32, unique=True, lowercase=True, include_digits=True)
 
+    initial_email_sent = models.BooleanField(default=False)
+
     name_visible = models.BooleanField(default=True)
     visitor_accepted = models.BooleanField(default=True)
     payment_status = models.BooleanField(default=False)
@@ -56,7 +58,10 @@ def send_email(sender, instance, **kwargs):
     try:
         old_instance = PaybackUser.objects.get(pk=instance.pk)
     except PaybackUser.DoesNotExist:
-        return send_registration_email(instance)
+        if PaybackUser.objects.count() <= 100:
+            return send_registration_email(instance)
+        else:
+            return
 
     if old_instance.email != instance.email:
         return send_registration_email(instance)
