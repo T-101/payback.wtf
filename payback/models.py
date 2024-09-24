@@ -4,9 +4,10 @@ from django.dispatch import receiver
 from django.utils import timezone
 from django_extensions.db.fields import RandomCharField
 from django_extensions.db.models import TimeStampedModel
-from singleton_models.models import SingletonModel
-
+from django.conf import settings
 from payback.helpers import send_registration_email
+
+from singleton_models.models import SingletonModel
 
 
 class PaybackUser(TimeStampedModel):
@@ -51,8 +52,10 @@ class Settings(SingletonModel):
         return "Settings"
 
 
-@receiver(pre_save, sender=PaybackUser)
+# @receiver(pre_save, sender=PaybackUser)
 def send_email(sender, instance, **kwargs):
+    if not settings.SEND_EMAILS:
+        return
     try:
         old_instance = PaybackUser.objects.get(pk=instance.pk)
     except PaybackUser.DoesNotExist:
