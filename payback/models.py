@@ -40,10 +40,8 @@ class Settings(SingletonModel):
 
     registration_start = models.DateTimeField()
 
-    @classmethod
-    def registration_open(cls):
-        instance = cls.load()
-        return instance.registration_start < timezone.localtime()
+    def registration_open(self):
+        return self.registration_start < timezone.localtime()
 
     @staticmethod
     def load():
