@@ -75,6 +75,21 @@ def stripe_payment_webhook(request):
     except json.JSONDecodeError:
         return HttpResponse(status=400, content='Invalid JSON body')
 
+    payload = request.body
+    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+
+    try:
+        event = stripe.Webhook.construct_event(payload, sig_header, settings.STRIPE_ENDPOINT_SECRET)
+    except ValueError as e:
+        print('Error parsing payload: {}'.format(str(e)))
+        return HttpResponse(status=400, content="Invalid payload")
+    except stripe.error.SignatureVerificationError as e:
+        print('Error verifying webhook signature: {}'.format(str(e)))
+        return HttpResponse(status=400, content="Invalid signature")
+
+    print("EVENT.TYPE", event.type)
+    print("EVENT.DATA.OBJECT", event.data.object)
+
     try:
         user_id = post_data['data']['object']['metadata']['user_id']
         stripe_session = post_data['data']['object']['metadata']['stripe_session']
