@@ -87,7 +87,8 @@ def stripe_payment_webhook(request):
         return HttpResponse(status=400, content="Invalid signature")
 
     print("EVENT.TYPE", event.type)
-    print("EVENT.DATA.OBJECT", event.data.object)
+    print("EVENT.DATA.OBJECT MT1", event.data.object.get('metadata'))
+    print("EVENT.DATA.OBJECT MT2", event.data.object.metadata)
 
     try:
         user_id = post_data['data']['object']['metadata']['user_id']
