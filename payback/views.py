@@ -1,5 +1,6 @@
 import json
 
+from django.contrib import messages
 from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.urls import reverse_lazy, reverse
@@ -9,6 +10,7 @@ from django.views.generic import TemplateView, FormView, ListView, UpdateView
 
 from payback.forms import PaybackUserForm
 from payback.models import PaybackUser, Settings
+from payback.helpers import verify_sendgrid_webhook
 
 
 class LandingPageView(TemplateView):
@@ -52,6 +54,10 @@ class VisitorDetailView(UpdateView):
     def get_object(self, queryset=None):
         return PaybackUser.objects.get(user_id=self.kwargs['user_id'])
 
+    def form_valid(self, form):
+        messages.add_message(self.request, messages.SUCCESS, 'User updated successfully')
+        return super().form_valid(form)
+
     def get_success_url(self):
         return reverse('payback:visitor-detail', kwargs={'user_id': self.object.user_id})
 
@@ -63,6 +69,9 @@ def sendgrid_delivery_webhook(request):
         post_data = json.loads(request.body)
     except json.JSONDecodeError:
         return HttpResponse(status=400, content='Invalid JSON body')
+
+    if not verify_sendgrid_webhook(request):
+        return HttpResponse(status=403, content='Invalid webhook signature')
 
     emails = []
 
