@@ -23,16 +23,20 @@
                             the
                             card's content.</p>
                         <hr/>
-                        <div>Payment status:
-                            {% if object.payment_status %}
-                                Paid!
-                            {% else %}
-                                <form action="{% url 'payback:stripe-create-checkout-session' object.user_id %}"
-                                      method="POST">
-                                    <button class="btn btn-primary" type="submit" id="checkout-button">Pay now</button>
-                                </form>
-                            {% endif %}
-                        </div>
+
+                        {% if object.payment_status %}
+                            <div>
+                                Payment status: Paid!
+                            </div>
+                        {% else %}
+                            <form action="{% url 'payback:stripe-create-checkout-session' object.user_id %}"
+                                  method="POST">
+                                <div>Payment status:
+                                    <button class="btn btn-primary ms-2" type="submit" id="checkout-button">Pay now!</button>
+                                </div>
+                            </form>
+                        {% endif %}
+
                         <hr/>
                         <div>Votekey:
                             {% if object.payment_status %}
