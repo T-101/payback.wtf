@@ -16,7 +16,7 @@
             <p>Trust only in <span class="text-decoration-underline">The Process.</span></p>
         </div>
         <div class="col-12 col-md-6">
-            {% if registration_open %}
+            {% if settings.registration_open %}
                 <h5>Registration <span class="ms-1 badge bg-success">Open</span></h5>
                 {% crispy form %}
             {% else %}
@@ -26,7 +26,7 @@
                     </div>
                     <div class="card-body text-center">
                         <h4 class="card-title">Registration opens</h4>
-                        <h4>{{ registration_start }}</h4>
+                        <h4>{{ settings.registration_start }}</h4>
                         <p id="countdown" class="container-fluid fs-3 badge bg-primary"></p>
                     </div>
                 </div>
@@ -35,9 +35,9 @@
     </div>
 
     <script>
-        const countDownDate = new Date("{{ registration_start|date:"c" }}").getTime(),
+        const countDownDate = new Date("{{ settings.registration_start|date:"c" }}").getTime(),
             countdownElem = document.getElementById("countdown"),
-            countdownFn =  () => {
+            countdownFn = () => {
 
                 const distance = countDownDate - new Date().getTime(),
                     days = Math.floor(distance / (1000 * 60 * 60 * 24)),
@@ -45,16 +45,14 @@
                     minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
                     seconds = Math.floor((distance % (1000 * 60)) / 1000)
 
-                const countdown = days + "d " + hours + "h " + minutes + "m " + seconds + "s "
-
-                countdownElem.innerHTML = countdown
+                countdownElem.innerHTML = days + "d " + hours + "h " + minutes + "m " + seconds + "s "
 
                 if (distance < 0) {
-                    clearInterval(intervalHandler);
-                    countdownElem.innerHTML = "Registration is open! Refresh your browser!"
+                    clearInterval(intervalHandler)
+                    window.location.reload()
                 }
             },
-            intervalHandler = setInterval(countdownFn, 1000)
+            intervalHandler = countdownElem && setInterval(countdownFn, 1000)
         countdownFn()
     </script>
 
