@@ -1,7 +1,7 @@
 from django.urls import path
 
 from payback.payment_views import create_checkout_session
-from payback.views import LandingPageView, RegistrationView, VisitorListView, InformationView, VisitorDetailView
+from payback.views import LandingPageView, RegistrationView, VisitorListView, InformationView, VisitorDetailView, sendgrid_delivery_webhook
 from payback.payment_views import stripe_success, stripe_cancel, stripe_payment_webhook
 
 app_name = 'payback'
@@ -17,5 +17,6 @@ urlpatterns = [
     path('stripe/success.html', stripe_success, name='stripe-success'),
     path('stripe/cancel.html', stripe_cancel, name='stripe-cancel'),
     path('stripe/webhook/', stripe_payment_webhook, name='stripe-webhook'),
-
+    # Sendgrid webhook
+    path('sendgrid/webhook/', sendgrid_delivery_webhook, name='sendgrid-delivery-webhook'),
 ]
