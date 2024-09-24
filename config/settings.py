@@ -15,6 +15,8 @@ import os
 
 from pathlib import Path
 
+from django.contrib import messages
+
 env = environ.Env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -146,6 +148,10 @@ MEDIA_ROOT = env('MEDIA_ROOT')
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
 
 PLAUSIBLE_SITES = env.str("PLAUSIBLE_SITES", default=None)
 PLAUSIBLE_SCRIPT_URL = env.str("PLAUSIBLE_SCRIPT_URL", default=None)
