@@ -1,6 +1,11 @@
+import json
+
 from django.db.models import Count, Q
-from django.urls import reverse_lazy
-from django.views.generic import TemplateView, FormView, ListView, DetailView
+from django.http import HttpResponse
+from django.urls import reverse_lazy, reverse
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.http import require_http_methods
+from django.views.generic import TemplateView, FormView, ListView, UpdateView
 
 from payback.forms import PaybackUserForm
 from payback.models import PaybackUser, Settings
@@ -40,25 +45,31 @@ class VisitorListView(ListView):
                 )
 
 
-class VisitorDetailView(FormView):
+class VisitorDetailView(UpdateView):
     template_name = 'visitor-detail.html'
     form_class = PaybackUserForm
 
-    def __init__(self):
-        super().__init__()
-        self.object = None
+    def get_object(self, queryset=None):
+        return PaybackUser.objects.get(user_id=self.kwargs['user_id'])
 
-    def dispatch(self, request, *args, **kwargs):
-        self.object = PaybackUser.objects.get(user_id=kwargs['user_id'])
-        return super().dispatch(request, *args, **kwargs)
+    def get_success_url(self):
+        return reverse('payback:visitor-detail', kwargs={'user_id': self.object.user_id})
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['object'] = self.object
-        return context
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        if self.object.visitor_accepted:
-            kwargs['instance'] = self.object
-        return kwargs
+@csrf_exempt
+@require_http_methods(["POST"])
+def sendgrid_delivery_webhook(request):
+    try:
+        post_data = json.loads(request.body)
+    except json.JSONDecodeError:
+        return HttpResponse(status=400, content='Invalid JSON body')
+
+    emails = []
+
+    for item in post_data:
+        email = item['email']
+        if email:
+            emails.append(email)
+
+    PaybackUser.objects.filter(email__in=emails).update(initial_email_sent=True)
+    return HttpResponse(status=200)
