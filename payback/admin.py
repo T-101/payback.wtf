@@ -12,13 +12,29 @@ class InlineQuestionnaire(admin.TabularInline):
 @admin.register(PaybackUser)
 class PaybackUserAdmin(admin.ModelAdmin):
     list_display = [
-        'id', 'handle', 'group', 'email',
-        'name_visible', 'visitor_accepted', 'payment_status', 'created'
+        'id', 'handle', 'email',
+        'name_visible_icon', 'visitor_accepted_icon', 'payment_status_icon', 'initial_email_sent_icon', 'created'
     ]
-    list_filter = ['created', 'modified', 'name_visible', 'visitor_accepted', 'payment_status']
+    list_filter = ['visitor_accepted', 'payment_status', 'initial_email_sent',
+                   'name_visible', 'created', 'modified']
     search_fields = ['handle', 'group', 'email', 'user_id']
     readonly_fields = ['user_id']
     inlines = [InlineQuestionnaire]
+
+    @staticmethod
+    def _create_icon_method(field_name, short_description):
+        def icon_method(self, obj):
+            return getattr(obj, field_name)
+
+        icon_method.boolean = True
+        icon_method.short_description = short_description
+        icon_method.admin_order_field = field_name
+        return icon_method
+
+    name_visible_icon = _create_icon_method('name_visible', 'Visible')
+    visitor_accepted_icon = _create_icon_method('visitor_accepted', 'Accepted')
+    payment_status_icon = _create_icon_method('payment_status', 'Payment')
+    initial_email_sent_icon = _create_icon_method('initial_email_sent', 'Initial email')
 
     actions = ['send_registration_email', 'send_declined_email']
 
