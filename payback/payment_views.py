@@ -75,11 +75,10 @@ def stripe_payment_webhook(request):
     except json.JSONDecodeError:
         return HttpResponse(status=400, content='Invalid JSON body')
 
-    payload = request.body
-    sig_header = request.META['HTTP_STRIPE_SIGNATURE']
+    sig_header = request.headers.get('Stripe-Signature')
 
     try:
-        event = stripe.Webhook.construct_event(payload, sig_header, settings.STRIPE_ENDPOINT_SECRET)
+        event = stripe.Webhook.construct_event(request.body, sig_header, settings.STRIPE_WEBHOOK_SECRET)
     except ValueError as e:
         print('Error parsing payload: {}'.format(str(e)))
         return HttpResponse(status=400, content="Invalid payload")
