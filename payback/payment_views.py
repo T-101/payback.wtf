@@ -71,7 +71,8 @@ def stripe_cancel(request):
 @require_http_methods(["POST"])
 def stripe_payment_webhook(request):
     try:
-        event = stripe.Webhook.construct_event(request.body, request.headers.get('Stripe-Signature'),
+        event = stripe.Webhook.construct_event(request.body,
+                                               request.headers.get('Stripe-Signature'),
                                                settings.STRIPE_WEBHOOK_SECRET)
     except ValueError as e:
         print(f'Error parsing payload: {e}')
