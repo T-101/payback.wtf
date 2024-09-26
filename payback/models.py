@@ -52,7 +52,7 @@ class Settings(SingletonModel):
         return "Settings"
 
 
-# @receiver(pre_save, sender=PaybackUser)
+@receiver(pre_save, sender=PaybackUser)
 def send_email(sender, instance, **kwargs):
     if not settings.SEND_EMAILS:
         return
