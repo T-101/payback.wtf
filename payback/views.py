@@ -48,10 +48,12 @@ class InformationView(TemplateView):
 class VisitorListView(ListView):
     template_name = 'visitors.html'
     model = PaybackUser
-    queryset = (PaybackUser.objects
-                .annotate(paid_count=Count('id', filter=Q(payment_status=True)))
-                .filter(visitor_accepted=True)
-                )
+    queryset = PaybackUser.objects.filter(visitor_accepted=True)
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        ctx = super().get_context_data(object_list=object_list, **kwargs)
+        ctx['paid_count'] = self.queryset.filter(payment_status=True).count()
+        return ctx
 
 
 class VisitorDetailView(UpdateView):
