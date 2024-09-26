@@ -16,46 +16,90 @@
         {% else %}
             <div class="col-12 col-sm-6">
                 <div class="card text-white bg-secondary mb-3">
-                    <div class="card-header">{{ object.handle }}</div>
+                    <div class="card-header">Here you can change your info and pay your ticket</div>
                     <div class="card-body">
-                        <h4 class="card-title">Secondary card title</h4>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the
-                            card's content.</p>
-                        <hr/>
-
                         {% if object.payment_status %}
-                            <div>
-                                Payment status: Paid!
-                            </div>
+                            <h4 class="card-title">Payment status: Paid!</h4>
                         {% else %}
-                            <form action="{% url 'payback:stripe-create-checkout-session' object.user_id %}"
-                                  method="POST">
-                                <div>Payment status:
-                                    <button class="btn btn-primary ms-2" type="submit" id="checkout-button">
-                                        Pay now!
-                                    </button>
-                                </div>
-                            </form>
+                            {% if settings.PAYMENTS_ACTIVE %}
+                                <form action="{% url 'payback:stripe-create-checkout-session' object.user_id %}"
+                                      method="POST">
+                                    <div>Payment status:
+                                        <button class="btn btn-primary ms-2" type="submit" id="checkout-button">
+                                            Pay now!
+                                        </button>
+                                    </div>
+                                </form>
+                            {% else %}
+                                <h4 class="card-title">Payment: Soon!</h4>
+                            {% endif %}
                             <small>The email in payment does <span class="text-decoration-underline">not</span>
                                 need to match the email you entered here</small>
                         {% endif %}
 
                         <hr/>
-                        <div>Votekey:
+                        <h4 class="card-title">Votekey</h4>
+
+                        <div class="card-text">
                             {% if object.payment_status %}
-                                {{ object.user_id_short }}
+
+                                <div class="input-group mb-3">
+                                    <input type="text" id="votekey" class="form-control" placeholder="Soon..."
+                                           value="{{ object.votekey }}" disabled>
+                                    <button class="btn btn-primary" type="button" id="votekey-button">
+                                        <i class="fa-regular fa-clipboard me-2"></i>
+                                        Copy
+                                    </button>
+                                </div>
+
+                                <div class="toast-container position-fixed bottom-0 start-0 p-3">
+                                    <div id="votekey-toast" class="toast" role="alert">
+                                        <div class="toast-body">
+                                            Votekey copied to clipboard
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <ul>
+                                    {% if not object.votekey %}
+                                        <li>
+                                            Votekey will appear here closer to the party
+                                        </li>
+                                    {% else %}
+                                        <li>
+                                            Submitting and voting is handled in
+                                            <a href="#" target="_blank">PartyMan</a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+
+                                <script>
+                                    const votekey = document.getElementById('votekey'),
+                                        votekeyToast = document.getElementById('votekey-toast')
+                                    document.getElementById('votekey-button').addEventListener('click', () => {
+                                        votekey.select()
+                                        votekey.setSelectionRange(0, 99999)
+                                        navigator.clipboard.writeText(votekey.value)
+                                        new bootstrap.Toast(votekeyToast).show()
+                                    })
+                                </script>
+
                             {% else %}
-                                Pay first (add JS copy button)
+                                <small> Visible here after successful payment </small>
                             {% endif %}
                         </div>
-                        <hr/>
-                        <h4>Questionnaire answered: {{ object.questionnaire|boolean_text }}</h4>
+
+                        {% comment %}                        <hr/>
+                        <h4 class="card-title">Questionnaire answered</h4>
+                        <p class="card-text">
+                            {{ object.questionnaire|boolean_text }}
+                        </p>{% endcomment %}
                     </div>
                 </div>
             </div>
             <div class="col-12 col-sm-6">
                 {% crispy form %}
+            <h6>Updating these will close in December</h6>
             </div>
         {% endif %}
     </div>
