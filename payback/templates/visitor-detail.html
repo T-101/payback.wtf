@@ -21,7 +21,7 @@
                         {% if object.payment_status %}
                             <h4 class="card-title">Payment status: Paid!</h4>
                         {% else %}
-                            {% if settings.PAYMENTS_ACTIVE %}
+                            {% if payments_active %}
                                 <form action="{% url 'payback:stripe-create-checkout-session' object.user_id %}"
                                       method="POST">
                                     <div>Payment status:
