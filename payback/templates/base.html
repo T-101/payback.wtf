@@ -37,6 +37,10 @@
                        href="{% url 'payback:information' %}">Information</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.view_name == "payback:timetable" %} active {% endif %}"
+                       href="{% url 'payback:timetable' %}">Timetable</a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link {% if request.resolver_match.view_name == "payback:registration" %} active {% endif %}"
                        href="{% url 'payback:registration' %}">
                         Registration
