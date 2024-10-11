@@ -1,5 +1,6 @@
 import json
 
+from django.conf import settings
 from django.contrib import messages
 from django.db.models import Count, Q
 from django.http import HttpResponse
@@ -45,10 +46,19 @@ class InformationView(TemplateView):
     template_name = 'information.html'
 
 
+class TimetableView(TemplateView):
+    template_name = 'timetable.html'
+
+
 class VisitorListView(ListView):
     template_name = 'visitors.html'
     model = PaybackUser
     queryset = PaybackUser.objects.filter(visitor_accepted=True)
+
+    def dispatch(self, request, *args, **kwargs):
+        if not Settings.load().registration_open():
+            self.queryset = self.queryset.none()
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *, object_list=None, **kwargs):
         ctx = super().get_context_data(object_list=object_list, **kwargs)
@@ -62,6 +72,11 @@ class VisitorDetailView(UpdateView):
 
     def get_object(self, queryset=None):
         return PaybackUser.objects.get(user_id=self.kwargs['user_id'])
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['payments_active'] = settings.PAYMENTS_ACTIVE
+        return context
 
     def form_valid(self, form):
         messages.add_message(self.request, messages.SUCCESS, 'User updated successfully')
