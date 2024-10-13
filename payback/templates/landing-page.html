@@ -1,4 +1,4 @@
-<!DOCTYPE HTML>{% load static %}
+<!DOCTYPE HTML>{% load static %}{% load plausible %}
 <!--
 	Landed by HTML5 UP
 	html5up.net | @ajlkn
@@ -119,6 +119,7 @@
             <p>The lower deck will accommodate 100 visitors.</p>
             <p>Multiple screen setup and Boss speakers all around.</p>
             <p>Bar with the usual selection of beers and spirits. Payment with cash, card or electronic.</p>
+            <p>Own food or beverages are not allowed, this is a public restaurant.</p>
             <ul class="actions">
                 <li><a href="https://ravintolawaiski.fi/" class="button">Learn More</a></li>
             </ul>
@@ -223,6 +224,8 @@
 <script src="{% static 'js/breakpoints.min.js' %}"></script>
 <script src="{% static 'js/util.js' %}"></script>
 <script src="{% static 'js/main.js' %}"></script>
+
+{% plausible %}
 
 </body>
 </html>
