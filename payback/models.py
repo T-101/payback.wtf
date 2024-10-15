@@ -59,7 +59,6 @@ class Settings(SingletonModel):
 
 @receiver(pre_save, sender=PaybackUser)
 def send_email_if_email_changed(sender, instance, **kwargs):
-    print("INSTANCE", instance)
 
     if instance.place_in_line == 0:
         last_position = PaybackUser.objects.order_by("place_in_line").last().place_in_line
