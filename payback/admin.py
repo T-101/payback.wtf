@@ -12,7 +12,7 @@ class InlineQuestionnaire(admin.TabularInline):
 @admin.register(PaybackUser)
 class PaybackUserAdmin(admin.ModelAdmin):
     list_display = [
-        'id', 'handle', 'email',
+        'id', 'handle', 'email', 'place_in_line',
         'name_visible_icon', 'visitor_accepted_icon', 'payment_status_icon', 'initial_email_sent_icon', 'created'
     ]
     list_filter = ['visitor_accepted', 'payment_status', 'initial_email_sent',
@@ -36,7 +36,7 @@ class PaybackUserAdmin(admin.ModelAdmin):
     payment_status_icon = _create_icon_method('payment_status', 'Payment')
     initial_email_sent_icon = _create_icon_method('initial_email_sent', 'Initial email')
 
-    actions = ['send_registration_email', 'send_declined_email']
+    actions = ['send_registration_email', 'send_declined_email', 'regenerate_user_id']
 
     def send_registration_email(self, request, queryset):
         for user in queryset:
@@ -52,6 +52,11 @@ class PaybackUserAdmin(admin.ModelAdmin):
         self.message_user(request, f"{len(queryset)} Declined emails sent.")
 
     send_declined_email.short_description = "Decline user and send email"
+
+    def regenerate_user_id(self, request, queryset):
+        for user in queryset:
+            user.regenerate_user_id()
+        self.message_user(request, f"{len(queryset)} User IDs regenerated.")
 
 
 @admin.register(Questionnaire)
