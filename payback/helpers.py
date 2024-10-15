@@ -42,6 +42,7 @@ def send_registration_email(payback_user):
         text_filepath="snippets/email-registration.txt",
         context={
             "site": Site.objects.get_current().domain,
+            "place_in_line": payback_user.place_in_line,
             "handle": payback_user.handle,
             "user_id": payback_user.user_id},
         recipient_list=[payback_user.email])
