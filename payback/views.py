@@ -4,6 +4,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.db.models import Count, Q
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
@@ -71,7 +72,8 @@ class VisitorDetailView(UpdateView):
     form_class = PaybackUserForm
 
     def get_object(self, queryset=None):
-        return PaybackUser.objects.get(user_id=self.kwargs['user_id'])
+        return get_object_or_404(PaybackUser, user_id=self.kwargs['user_id'], visitor_accepted=True)
+        # return PaybackUser.objects.get(user_id=self.kwargs['user_id'], visitor_accepted=True)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
