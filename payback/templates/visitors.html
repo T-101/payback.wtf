@@ -5,41 +5,42 @@
     {% if not object_list %}
         <h4>No one here yet</h4>
     {% else %}
-        <h3>Visitors</h3>
+        <div class="mb-4">
+            <h3>Visitors</h3>
 
-        <div class="row">
-            <div class="col-12 col-sm-6">
-                <small>
-                    Paid visitors: {{ paid_count }} - Total visitors: {{ object_list.count }}
-                </small>
-            </div>
-            <div class="col-12 col-sm-6">
-                <small>
-                    <i class="fas fa-crown"></i> = Paid
-                </small>
-            </div>
-        </div>
-
-        <hr/>
-
-        {% for visitor in object_list %}
-            {% if forloop.counter0 == 100 %}
-                <hr/>
-                <p>On Queue:</p>
-            {% endif %}
-            {% if forloop.counter0|divisibleby:2 %}
-                <div class="row">
-                    <div class="col-12 col-sm-6">
-                        {% include 'snippets/visitor-line.html' %}
-                    </div>
-                    {% else %}
-                    <div class="col-12 col-sm-6">
-                        {% include 'snippets/visitor-line.html' %}
-                    </div>
+            <div class="row">
+                <div class="col-12 col-sm-6">
+                    <small>
+                        Paid visitors: {{ paid_count }} - Total visitors: {{ object_list.count }}
+                    </small>
                 </div>
-            {% endif %}
-        {% endfor %}
+                <div class="col-12 col-sm-6">
+                    <small>
+                        <i class="fas fa-crown"></i> = Paid
+                    </small>
+                </div>
+            </div>
 
+            <hr/>
+
+            {% for visitor in object_list %}
+                {% if forloop.counter0 == 100 %}
+                    <hr/>
+                    <p>On Queue:</p>
+                {% endif %}
+                {% if forloop.counter0|divisibleby:2 %}
+                    <div class="row">
+                        <div class="col-12 col-sm-6">
+                            {% include 'snippets/visitor-line.html' %}
+                        </div>
+                        {% else %}
+                        <div class="col-12 col-sm-6">
+                            {% include 'snippets/visitor-line.html' %}
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
     {% endif %}
 
 {% endblock %}
