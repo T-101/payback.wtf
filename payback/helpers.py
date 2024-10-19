@@ -2,33 +2,42 @@ import os
 import threading
 
 from django.contrib.sites.models import Site
-from django.core.mail import EmailMultiAlternatives
+from django.core import mail
 from django.template.loader import render_to_string
 from django.conf import settings
 from sendgrid import EventWebhook, EventWebhookHeader
 
 
 class EmailThread(threading.Thread):
-    def __init__(self, subject: str, text_filepath: str, context: dict, recipient_list: list):
+    def __init__(self, subject: str, recipient_list: list, body: str = "", context=None, connection=None, text_filepath: str = ""):
+        if context is None:
+            context = {}
         self.subject = subject
+        self.body = body
         self.recipient_list = recipient_list
         self.text_filepath = text_filepath
         self.context = context
+        self.connection = connection
         threading.Thread.__init__(self)
 
     def run(self):
-        text_content = render_to_string(self.text_filepath, context=self.context)
+        if self.text_filepath:
+            text_content = render_to_string(self.text_filepath, context=self.context)
+        else:
+            text_content = self.body
 
-        msg = EmailMultiAlternatives(
+        msg = mail.EmailMultiAlternatives(
             subject=self.subject,
             body=text_content,
             from_email=settings.DEFAULT_FROM_EMAIL,
-            to=self.recipient_list
+            to=self.recipient_list,
+            connection=self.connection
         )
-        html_filepath = self.text_filepath.replace(".txt", ".html")
-        if os.path.exists(os.path.join(settings.BASE_DIR, "payback", "templates", html_filepath)):
-            html_content = render_to_string(html_filepath, context=self.context)
-            msg.attach_alternative(html_content, "text/html")
+        if self.text_filepath:
+            html_filepath = self.text_filepath.replace(".txt", ".html")
+            if os.path.exists(os.path.join(settings.BASE_DIR, "payback", "templates", html_filepath)):
+                html_content = render_to_string(html_filepath, context=self.context)
+                msg.attach_alternative(html_content, "text/html")
         msg.send()
 
 
@@ -37,6 +46,11 @@ def send_async_mail(**kwargs):
 
 
 def send_registration_email(payback_user):
+    email_be = mail.get_connection()
+    if payback_user.use_alternate_email_backend:
+        email_be.host = settings.EMAIL_HOST_ALTERNATE
+        email_be.username = settings.EMAIL_HOST_USER_ALTERNATE
+        email_be.password = settings.EMAIL_HOST_PASSWORD_ALTERNATE
     send_async_mail(
         subject="Welcome to Payback!",
         text_filepath="snippets/email-registration.txt",
@@ -45,7 +59,8 @@ def send_registration_email(payback_user):
             "place_in_line": payback_user.place_in_line,
             "handle": payback_user.handle,
             "user_id": payback_user.user_id},
-        recipient_list=[payback_user.email])
+        recipient_list=[payback_user.email],
+        connection=email_be)
 
 
 def send_declined_email(payback_user):
