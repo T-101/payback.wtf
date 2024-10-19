@@ -13,7 +13,9 @@ class InlineQuestionnaire(admin.TabularInline):
 class PaybackUserAdmin(admin.ModelAdmin):
     list_display = [
         'id', 'handle', 'email', 'place_in_line',
-        'name_visible_icon', 'visitor_accepted_icon', 'payment_status_icon', 'initial_email_sent_icon', 'created'
+        'name_visible_icon', 'visitor_accepted_icon', 'payment_status_icon', 'initial_email_sent_icon',
+        'alternate_email_icon',
+        'created'
     ]
     list_filter = ['visitor_accepted', 'payment_status', 'initial_email_sent',
                    'name_visible', 'created', 'modified']
@@ -35,6 +37,7 @@ class PaybackUserAdmin(admin.ModelAdmin):
     visitor_accepted_icon = _create_icon_method('visitor_accepted', 'Accepted')
     payment_status_icon = _create_icon_method('payment_status', 'Payment')
     initial_email_sent_icon = _create_icon_method('initial_email_sent', 'Initial email')
+    alternate_email_icon = _create_icon_method('use_alternate_email_backend', 'Alternate email')
 
     actions = ['send_registration_email', 'send_declined_email', 'regenerate_user_id']
 
