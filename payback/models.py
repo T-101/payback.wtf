@@ -18,6 +18,7 @@ class PaybackUser(TimeStampedModel):
     place_in_line = models.IntegerField(default=0)
 
     initial_email_sent = models.BooleanField(default=False)
+    use_alternate_email_backend = models.BooleanField(default=False)
 
     name_visible = models.BooleanField(default=True)
     visitor_accepted = models.BooleanField(default=True)
