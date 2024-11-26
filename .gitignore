@@ -10,5 +10,7 @@ docker-compose.override.yml
 
 *.csv
 *.json
+*.log
+*.bak
 
 .DS_Store
