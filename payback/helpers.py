@@ -9,7 +9,8 @@ from sendgrid import EventWebhook, EventWebhookHeader
 
 
 class EmailThread(threading.Thread):
-    def __init__(self, subject: str, recipient_list: list, body: str = "", context=None, connection=None, text_filepath: str = ""):
+    def __init__(self, subject: str, recipient_list: list, body: str = "", context=None, connection=None,
+                 text_filepath: str = ""):
         if context is None:
             context = {}
         self.subject = subject
@@ -63,6 +64,23 @@ def send_registration_email(payback_user):
         connection=email_be)
 
 
+def send_payment_email(payback_user):
+    email_be = mail.get_connection()
+    if payback_user.use_alternate_email_backend:
+        email_be.host = settings.EMAIL_HOST_ALTERNATE
+        email_be.username = settings.EMAIL_HOST_USER_ALTERNATE
+        email_be.password = settings.EMAIL_HOST_PASSWORD_ALTERNATE
+    send_async_mail(
+        subject="Payback ticket payment",
+        text_filepath="snippets/email-payment.txt",
+        context={
+            "site": Site.objects.get_current().domain,
+            "handle": payback_user.handle,
+            "user_id": payback_user.user_id},
+        recipient_list=[payback_user.email],
+        connection=email_be)
+
+
 def send_declined_email(payback_user):
     send_async_mail(
         subject="Your PayBack registration was declined",
@@ -83,4 +101,3 @@ def verify_sendgrid_webhook(request):
         request.headers[EventWebhookHeader.TIMESTAMP],
         ec_public_key
     )
-

@@ -1,0 +1,8 @@
+Hello, {{ handle }}!
+
+It is time to pay for your ticket.
+Click the link below to access Your Profile. There is a button that will start the payment process.
+Payments are handled by Stripe, and they accept major cards. Payment deadline is Dec 15th 2024.
+The email address in Stripe does not need to match you registration email.
+
+https://{{ site }}/visitor/{{ user_id }}/

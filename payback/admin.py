@@ -1,7 +1,7 @@
 from django.contrib import admin
 
 from .models import PaybackUser, Questionnaire, Settings
-from .helpers import send_registration_email, send_declined_email
+from .helpers import send_registration_email, send_declined_email, send_payment_email
 
 
 class InlineQuestionnaire(admin.TabularInline):
@@ -39,12 +39,17 @@ class PaybackUserAdmin(admin.ModelAdmin):
     initial_email_sent_icon = _create_icon_method('initial_email_sent', 'Initial email')
     alternate_email_icon = _create_icon_method('use_alternate_email_backend', 'Alternate email')
 
-    actions = ['send_registration_email', 'send_declined_email', 'regenerate_user_id']
+    actions = ['send_registration_email', 'send_payment_email', 'send_declined_email', 'regenerate_user_id']
 
     def send_registration_email(self, request, queryset):
         for user in queryset:
             send_registration_email(user)
         self.message_user(request, f"{len(queryset)} Registration emails sent.")
+
+    def send_payment_email(self, request, queryset):
+        for user in queryset:
+            send_payment_email(user)
+        self.message_user(request, f"{len(queryset)} Payment emails sent.")
 
     send_registration_email.short_description = "Send registration email"
 
