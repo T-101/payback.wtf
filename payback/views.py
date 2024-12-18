@@ -81,6 +81,10 @@ class VisitorDetailView(UpdateView):
         return context
 
     def form_valid(self, form):
+        instance = form.save(commit=False)
+        if instance.created_seven_days_ago:
+            form.add_error(None, 'Update closed')
+            return self.form_invalid(form)
         messages.add_message(self.request, messages.SUCCESS, 'User updated successfully')
         return super().form_valid(form)
 

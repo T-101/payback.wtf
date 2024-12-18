@@ -24,6 +24,10 @@ class PaybackUser(TimeStampedModel):
     visitor_accepted = models.BooleanField(default=True)
     payment_status = models.BooleanField(default=False)
 
+    @property
+    def created_seven_days_ago(self):
+        return timezone.now() - self.created > timezone.timedelta(days=7)
+
     def regenerate_user_id(self):
         self.user_id = ""
         self.save()
