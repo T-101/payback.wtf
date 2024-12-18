@@ -54,7 +54,7 @@ class TimetableView(TemplateView):
 class VisitorListView(ListView):
     template_name = 'visitors.html'
     model = PaybackUser
-    queryset = PaybackUser.objects.filter(visitor_accepted=True)
+    queryset = PaybackUser.objects.filter(visitor_accepted=True).order_by('place_in_line')
 
     def dispatch(self, request, *args, **kwargs):
         if not Settings.load().registration_open():
