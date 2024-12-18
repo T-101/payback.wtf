@@ -4,6 +4,12 @@
     <title>Visitor Details | Payback 2025</title>
 {% endblock %}
 
+{% block extrahead %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.11/clipboard.min.js"
+            integrity="sha512-7O5pXpc0oCRrxk8RUfDYFgn0nO1t+jLuIOQdOMRp4APB7uZ4vSjspzp5y6YDtDs4VzUSTbWzBFZ/LKJhnyFOKw=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock %}
+
 {% block content %}
     <h3>Your Details</h3>
     <div class="row">
@@ -45,8 +51,9 @@
 
                                 <div class="input-group mb-3">
                                     <input type="text" id="votekey" class="form-control" placeholder="Soon..."
-                                           value="{{ object.votekey }}" disabled>
-                                    <button class="btn btn-primary" type="button" id="votekey-button">
+                                           value="{{ object.votekey|default_if_none:"" }}" readonly>
+                                    <button class="btn btn-primary" type="button" id="votekey-button"
+                                            data-clipboard-target="#votekey">
                                         <i class="fa-regular fa-clipboard me-2"></i>
                                         Copy
                                     </button>
@@ -68,18 +75,16 @@
                                     {% else %}
                                         <li>
                                             Submitting and voting is handled in
-                                            <a href="#" target="_blank">PartyMan</a>
+                                            <a href="https://payback.partyman.cloud" target="_blank">PartyMan</a>
                                         </li>
                                     {% endif %}
                                 </ul>
 
                                 <script>
-                                    const votekey = document.getElementById('votekey'),
+                                    const clipboard = new ClipboardJS('#votekey-button'),
                                         votekeyToast = document.getElementById('votekey-toast')
-                                    document.getElementById('votekey-button').addEventListener('click', () => {
-                                        votekey.select()
-                                        votekey.setSelectionRange(0, 99999)
-                                        navigator.clipboard.writeText(votekey.value)
+
+                                    clipboard.on('success', function () {
                                         new bootstrap.Toast(votekeyToast).show()
                                     })
                                 </script>
@@ -101,7 +106,7 @@
                 {% crispy form %}
                 {% if object.created_seven_days_ago %}
                     <h6>Update closed</h6>
-                    {% else %}
+                {% else %}
                     <h6>Update will close 7 days after registration</h6>
                 {% endif %}
             </div>
