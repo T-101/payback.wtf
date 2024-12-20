@@ -1,0 +1,13 @@
+Important info about PayBack, {{ handle }}!
+
+PartyMan is now open for your entries. You can find your votekey from your profile page. PartyMan is located at https://payback.partyman.cloud
+
+The three compos are: Combined Demo, Wild and Payback Themed Image. Compo instructions are available at https://payback.wtf/information/
+
+We allow remove entries to Demo and Wild, no votekey required for those.
+
+Voting will always required a votekey.
+
+Go check out your profile, and we expect to see you and your entries at the party!
+
+https://{{ site }}/visitor/{{ user_id }}/

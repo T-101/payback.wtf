@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to PayBack</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            font-family: Arial, sans-serif;
+        }
+
+        table {
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        td {
+            padding: 20px;
+            text-align: center;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        h1 {
+            color: #333333;
+            font-size: 24px;
+            margin: 20px 0;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #375a7f;
+            color: #ffffff;
+            padding: 12px 25px;
+            font-size: 16px;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+<table cellpadding="0" cellspacing="0">
+    <tr>
+        <td>
+            <img src="https://{{ site }}/static/images/payback-logo-alpha_bg-small.webp" alt="PayBack Logo">
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <h1>Important info about PayBack, {{ handle }}!</h1>
+            <p>PartyMan is now open for your entries. You can find your votekey from your profile page. PartyMan is
+                located at https://payback.partyman.cloud</p>
+            <p>The three compos are: Combined Demo, Wild and Payback Themed Image. Compo instructions are available at
+                https://payback.wtf/information/</p>
+            <p>We allow remove entries to Demo and Wild, no votekey required for those.</p>
+            <p>Voting will always required a votekey.</p>
+            <p>Go check out your profile, and we expect to see you and your entries at the party!</p>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <a href="https://{{ site }}/visitor/{{ user_id }}/" class="btn">See your profile</a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

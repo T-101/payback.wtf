@@ -98,6 +98,23 @@ def send_payment_reminder_email(payback_user):
         connection=email_be)
 
 
+def send_compo_email(payback_user):
+    email_be = mail.get_connection()
+    if payback_user.use_alternate_email_backend:
+        email_be.host = settings.EMAIL_HOST_ALTERNATE
+        email_be.username = settings.EMAIL_HOST_USER_ALTERNATE
+        email_be.password = settings.EMAIL_HOST_PASSWORD_ALTERNATE
+    send_async_mail(
+        subject="Payback compo information",
+        text_filepath="snippets/email-compos.txt",
+        context={
+            "site": Site.objects.get_current().domain,
+            "handle": payback_user.handle,
+            "user_id": payback_user.user_id},
+        recipient_list=[payback_user.email],
+        connection=email_be)
+
+
 def send_declined_email(payback_user):
     send_async_mail(
         subject="Your PayBack registration was declined",

@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 from .models import PaybackUser, Questionnaire, Settings
-from .helpers import send_registration_email, send_declined_email, send_payment_email, send_payment_reminder_email
+from .helpers import send_registration_email, send_declined_email, send_payment_email, send_payment_reminder_email, \
+    send_compo_email
 
 
 class InlineQuestionnaire(admin.TabularInline):
@@ -39,7 +40,8 @@ class PaybackUserAdmin(admin.ModelAdmin):
     initial_email_sent_icon = _create_icon_method('initial_email_sent', 'Initial email')
     alternate_email_icon = _create_icon_method('use_alternate_email_backend', 'Alternate email')
 
-    actions = ['send_registration_email', 'send_payment_email', 'send_payment_reminder_email', 'send_declined_email', 'regenerate_user_id']
+    actions = ['send_registration_email', 'send_payment_email', 'send_payment_reminder_email',
+               'send_compo_email', 'regenerate_user_id']
 
     def send_registration_email(self, request, queryset):
         for user in queryset:
@@ -58,11 +60,18 @@ class PaybackUserAdmin(admin.ModelAdmin):
 
     send_registration_email.short_description = "Send registration email"
 
-    def send_declined_email(self, request, queryset):
-        queryset.update(visitor_accepted=False)
+    def send_compo_email(self, request, queryset):
         for user in queryset:
-            send_declined_email(user)
-        self.message_user(request, f"{len(queryset)} Declined emails sent.")
+            send_compo_email(user)
+        self.message_user(request, f"{len(queryset)} Compo emails sent.")
+
+    send_registration_email.short_description = "Send compo email"
+
+    # def send_declined_email(self, request, queryset):
+    #     queryset.update(visitor_accepted=False)
+    #     for user in queryset:
+    #         send_declined_email(user)
+    #     self.message_user(request, f"{len(queryset)} Declined emails sent.")
 
     send_declined_email.short_description = "Decline user and send email"
 
