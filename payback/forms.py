@@ -14,11 +14,11 @@ class PaybackUserForm(forms.ModelForm):
         payback_user = kwargs.get('instance')
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
-        if payback_user.created_seven_days_ago:
+        if payback_user and payback_user.created_seven_days_ago:
             self.fields['handle'].disabled = True
             self.fields['email'].disabled = True
             self.fields['group'].disabled = True
             self.helper.form_tag = False
             self.helper.disable_csrf = True
-        if not payback_user.created_seven_days_ago:
+        if not payback_user or (payback_user and not payback_user.created_seven_days_ago):
             self.helper.add_input(Submit('submit', 'Submit'))
