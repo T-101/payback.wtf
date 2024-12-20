@@ -58,14 +58,14 @@ class PaybackUserAdmin(admin.ModelAdmin):
             send_payment_reminder_email(user)
         self.message_user(request, f"{len(queryset)} Payment emails sent.")
 
-    send_registration_email.short_description = "Send registration email"
+    send_payment_reminder_email.short_description = "Send Payment reminder email"
 
     def send_compo_email(self, request, queryset):
         for user in queryset:
             send_compo_email(user)
         self.message_user(request, f"{len(queryset)} Compo emails sent.")
 
-    send_registration_email.short_description = "Send compo email"
+    send_compo_email.short_description = "Send compo email"
 
     # def send_declined_email(self, request, queryset):
     #     queryset.update(visitor_accepted=False)
