@@ -1,0 +1,12 @@
+Hello, {{ handle }}!
+
+Only a few days to go until the party! We can't wait to see you there.
+
+We arranged for some hot dogs! They will be served free of charge at 20:00.
+There is a limited supply, so first come, first served!
+
+Remember that the link below is your profile, where you can find your PartyMan (tm) votekey.
+
+See you at the party!
+
+https://{{ site }}/visitor/{{ user_id }}/

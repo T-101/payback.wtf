@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from .models import PaybackUser, Questionnaire, Settings
 from .helpers import send_registration_email, send_declined_email, send_payment_email, send_payment_reminder_email, \
-    send_compo_email
+    send_compo_email, send_partytime_email
 
 
 class InlineQuestionnaire(admin.TabularInline):
@@ -41,7 +41,7 @@ class PaybackUserAdmin(admin.ModelAdmin):
     alternate_email_icon = _create_icon_method('use_alternate_email_backend', 'Alternate email')
 
     actions = ['send_registration_email', 'send_payment_email', 'send_payment_reminder_email',
-               'send_compo_email', 'regenerate_user_id']
+               'send_compo_email', 'send_partytime_email', 'regenerate_user_id']
 
     def send_registration_email(self, request, queryset):
         for user in queryset:
@@ -57,6 +57,11 @@ class PaybackUserAdmin(admin.ModelAdmin):
         for user in queryset:
             send_payment_reminder_email(user)
         self.message_user(request, f"{len(queryset)} Payment emails sent.")
+
+    def send_partytime_email(self, request, queryset):
+        for user in queryset:
+            send_partytime_email(user)
+        self.message_user(request, f"{len(queryset)} Partytime emails sent.")
 
     send_payment_reminder_email.short_description = "Send Payment reminder email"
 
