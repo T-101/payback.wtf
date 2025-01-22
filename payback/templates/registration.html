@@ -16,9 +16,11 @@
             <p>Trust only in <span class="text-decoration-underline">The Process.</span></p>
         </div>
         <div class="col-12 col-md-6">
-            {% if settings.registration_open %}
+            {% if settings.registration_open and settings.registration_visible %}
                 <h5>Registration <span class="ms-1 badge bg-success">Open</span></h5>
                 {% crispy form %}
+            {% elif not settings.registration_visible %}
+                <h5>Registration <span class="ms-1 badge bg-danger">Closed</span></h5>
             {% else %}
                 <div class="card text-white bg-dark mb-3" style="max-width: 20rem;">
                     <div class="card-header">
