@@ -23,6 +23,7 @@ class PaybackUser(TimeStampedModel):
     votekey = models.CharField(max_length=100, blank=True, null=True, unique=True)
 
     name_visible = models.BooleanField(default=True)
+    invisible = models.BooleanField(default=False)
     visitor_accepted = models.BooleanField(default=True)
     payment_status = models.BooleanField(default=False)
 
@@ -52,6 +53,7 @@ class Settings(SingletonModel):
         verbose_name_plural = "Settings"
 
     registration_start = models.DateTimeField()
+    registration_visible = models.BooleanField(default=True)
 
     def registration_open(self):
         return self.registration_start < timezone.localtime()
